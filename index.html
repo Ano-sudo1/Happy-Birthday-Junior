@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Junior 🤍</title>
+    <!-- Elegant serif for titles, clean modern for text -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FAF9F6;
+            /* Cream/off-white */
+            --text-color: #2D231F;
+            /* Dark brown */
+            --accent-color: #800020;
+            /* Deep red/burgundy */
+            --title-font: 'Playfair Display', serif;
+            --body-font: 'Inter', sans-serif;
+            --transition: all 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--body-font);
+            overflow: hidden;
+            /* Prevent scrolling until OPEN is clicked */
+        }
+
+        /* Opening Screen */
+        #opening-screen {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2000;
+            background-color: var(--bg-color);
+            opacity: 1;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #opening-screen.hidden {
+            opacity: 0;
+            transform: translateY(-100vh);
+            pointer-events: none;
+        }
+
+        #opening-screen h1 {
+            font-family: var(--title-font);
+            font-weight: 400;
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        #opening-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        #open-button {
+            padding: 1rem 2rem;
+            border: 1px solid var(--text-color);
+            background: transparent;
+            color: var(--text-color);
+            font-family: var(--body-font);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #open-button:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* Navigation */
+        #main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(250, 249, 246, 0.95);
+            padding: 1rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #main-nav.visible {
+            opacity: 1;
+        }
+
+        #main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        #main-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 400;
+            transition: var(--transition);
+        }
+
+        #main-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Music Control */
+        #music-control {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1500;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #music-control.visible {
+            opacity: 1;
+        }
+
+        #music-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Section Styling */
+        section {
+            min-height: 100vh;
+            padding: 6rem 10% 4rem;
+            /* Top padding for nav */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-family: var(--title-font);
+            font-weight: 400;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+
+        .heart {
+            color: var(--accent-color);
+        }
+
+        /* Media styling */
+        .photo-container,
+        .video-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 2rem 0;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .photo-container img {
+            max-height: 80vh;
+            object-fit: contain;
+            object-position: left;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .photo-gallery img {
+            height: 420px;
+            object-fit: cover;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        /* Customizing Section 1 */
+        #begin p {
+            font-style: italic;
+        }
+
+        /* Customizing Section 3 */
+        .memory-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .memory-card {
+            border: 1px solid rgba(45, 35, 31, 0.1);
+            padding: 2rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .memory-card:hover {
+            border-color: var(--accent-color);
+            background-color: rgba(128, 0, 32, 0.02);
+        }
+
+        .memory-card p {
+            margin-bottom: 0;
+        }
+
+        /* Customizing Section 4 */
+        #lessons h3 {
+            font-family: var(--title-font);
+            font-weight: 400;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Customizing Section 8 */
+        #birthday-letter .letter-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        #birthday-letter p {
+            font-family: 'Playfair Display', serif;
+            /* Script-like look */
+            font-style: italic;
+            font-size: 1.2rem;
+            max-width: 100%;
+        }
+
+        #birthday-letter h2 {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Customizing Final Section */
+        #final {
+            text-align: center;
+            align-items: center;
+        }
+
+        #final p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #final h2 {
+            font-size: 3rem;
+        }
+
+        #final .last-song-control {
+            margin-top: 3rem;
+            font-size: 1.1rem;
+        }
+
+        #final-music-toggle {
+            background: transparent;
+            border: 1px solid var(--text-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #final-music-toggle:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+
+            #main-nav {
+                display: none;
+                /* Hide top nav on mobile */
+            }
+
+            section {
+                padding: 3rem 5%;
+            }
+
+            #opening-screen h1 {
+                font-size: 2rem;
+            }
+
+            #opening-screen p {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            #lessons h3 {
+                font-size: 1.5rem;
+            }
+
+            #birthday-letter .letter-content {
+                padding: 1.5rem;
+            }
+
+            #birthday-letter p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Music (referencing the song) -->
+    <audio id="bg-music" loop>
+        <source src="assets/baby_love_orit.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Opening Screen -->
+    <div id="opening-screen">
+        <h1>For Junior 🤍</h1>
+        <p>A little something I made for you…</p>
+        <button id="open-button">OPEN 🤍</button>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav id="main-nav">
+        <ul>
+            <li><a href="#begin">Beginning</a></li>
+            <li><a href="#story">Our Story</a></li>
+            <li><a href="#lessons">Lessons</a></li>
+            <li><a href="#memories">Memories</a></li>
+            <li><a href="#final">Final</a></li>
+        </ul>
+    </nav>
+
+    <!-- Global Music Control (Floating) -->
+    <div id="music-control">
+        <button id="music-toggle" title="Pause Music">🔊</button>
+    </div>
+
+    <!-- Section 1 -->
+    <section id="begin">
+        <h2>I didn’t know where to begin…</h2>
+        <p>Honestly, I wanted to wish you last because I genuinely didn’t know where I was going to begin. There was so
+            much I wanted to say, and I didn’t know how to put everything I was feeling into words.</p>
+        <p>So instead of trying to fit everything into one birthday message, I decided to put a little piece of it all
+            here.</p>
+        <p>So I decided to make you this instead. 🤍</p>
+    </section>
+
+    <!-- Section 2 -->
+    <section id="story">
+        <h2>Our Story 🤍</h2>
+        <div class="story-item">
+            <p><strong>November 2024:</strong> “The beginning.”</p>
+            <div class="photo-container">
+                <img src="assets/Image_1.jpeg" alt="Our first date bowling scoreboard">
+            </div>
+            <p>“Our first date. Bowling, flowers and two people who had no idea how much life they were about to
+                experience together.”</p>
+        </div>
+        <div class="story-item">
+            <p><strong>2025:</strong> “So many memories.”</p>
+            <p>“Somewhere along the way, you became such a big part of my everyday life. The dates, the laughs, the
+                adventures, the random moments and all the little things in between.”</p>
+            <div class="photo-container">
+                <img src="assets/Image_4.jpeg" alt="Us in front of the neon roses">
+            </div>
+        </div>
+        <div class="story-item">
+            <p><strong>2026:</strong> “A different chapter.”</p>
+            <p>“Things haven’t always been perfect, but every chapter has taught me something, given me memories I’ll
+                always carry and shaped me in ways I didn’t expect.”</p>
+            <div class="photo-container">
+                <img src="assets/Image_2.jpeg" alt="">
+            </div>
+        </div>
+        <p>And somehow, through it all, I’m still grateful our paths crossed.</p>
+    </section>
+
+    <!-- Section 3 -->
+    <section id="little-things">
+        <h2>It was always the little things.</h2>
+        <div class="memory-cards">
+            <div class="memory-card">
+                <p>“The random adventures.”</p>
+            </div>
+            <div class="memory-card">
+                <p>“The late-night moments.”</p>
+            </div>
+            <div class="memory-card">
+                <p>“The silly moments.”</p>
+            </div>
+            <div class="memory-card">
+                <p>“The ‘my girl’ moments.”</p>
+            </div>
+            <div class="memory-card">
+                <p>“The laughs that made absolutely no sense.”</p>
+            </div>
+            <div class="memory-card">
+                <p>“The moments that seemed so small at the time…”</p>
+            </div>
+        </div>
+        <div class="photo-gallery">
+            <img src="assets/Image_6.jpeg" alt="A little moment together">
+            <img src="assets/Image_3.jpeg" alt="Sunny day together">
+            <img src="assets/Image_5.jpeg" alt="Poolside adventure">
+        </div>
+        <p style="margin-top: 2rem;">“…but somehow became some of my favourite memories.”</p>
+        <p>It’s funny how the little things end up meaning the most.</p>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="lessons">
+        <h2>Things You Taught Me</h2>
+        <h3>LOVE:</h3>
+        <p>“You taught me that love is more than just a feeling. It’s patience, understanding, effort and choosing to
+            care even when things aren’t easy.”</p>
+        <h3>PATIENCE:</h3>
+        <p>“You taught me to slow down, listen and try to understand before reacting.”</p>
+        <h3>KINDNESS:</h3>
+        <p>“You taught me the importance of being gentle with the people I love and remembering that everyone is
+            learning and growing.”</p>
+        <h3>COMMUNICATION:</h3>
+        <p>“You taught me that saying what I feel matters, even when it’s uncomfortable.”</p>
+        <h3>SELF-RESPECT:</h3>
+        <p>“You taught me that loving someone shouldn’t mean losing myself in the process.”</p>
+        <p style="margin-top: 2rem;">And, of course, you taught me to stand up for myself and not be a gallabole 😭😂.
+        </p>
+        <p>For all of these lessons, I’ll always be grateful.</p>
+    </section>
+
+    <!-- Section 5 -->
+    <section id="mean-to-me">
+        <h2>You’ll always mean something to me.</h2>
+        <p>I’m genuinely grateful that our paths crossed.</p>
+        <p>Out of all the people I could have met in this life, I’m grateful that I got to know you, love you,
+            experience life with you and create so many memories with you.</p>
+        <p>You became such an important part of my story. You showed me parts of myself I didn’t know existed, taught me
+            things about love and about myself, and gave me memories I’ll always be able to look back on.</p>
+        <p>Whatever life looks like from here, I’ll never look back at our time together and wish that I never
+            experienced it.</p>
+        <p>I’m grateful I got to know you.</p>
+        <p>I’m grateful I got to love you.</p>
+        <p>And I’m grateful that, for a part of my life, our paths crossed. 🤍</p>
+    </section>
+
+    <!-- Section 6 -->
+    <section id="honor">
+        <h2>One thing I want you to know…</h2>
+        <p>I will never shame what we had.</p>
+        <p>Not with anybody in this world.</p>
+        <p>Nobody can take away the memories we made, the love we shared, the lessons we learned or the person you were
+            in my life.</p>
+        <p>Whatever anyone thinks or says, they weren’t there for all of it. They didn’t experience what we experienced.
+        </p>
+        <p>I know what it meant to me.</p>
+        <p>It was real to me.</p>
+        <p>You were real to me.</p>
+        <p>And I’ll always honour that. 🤍</p>
+    </section>
+
+    <!-- Section 7 -->
+    <section id="memories">
+        <h2>A few memories…</h2>
+        <p>Press play. 🤍</p>
+        <div class="video-container">
+            <!-- Using the memory video from the assets (represented by the first video frame image) -->
+            <video id="memory-video" controls poster="image_6.png">
+                <!-- For local use, place 'memory_video.mp4' in the same folder -->
+                <source src="assets/Video_1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <p>A little piece of us, captured in moments I’ll always remember.</p>
+    </section>
+
+    <!-- Section 8 -->
+    <section id="birthday-letter">
+        <div class="letter-content">
+            <h2>HAPPY BIRTHDAY</h2>
+            <p>Happy birthday, Junior. 🤍</p>
+            <p>I pray that God blesses you abundantly in this new year of your life. May He guide you in every decision
+                you make, protect you wherever you go, and open doors for you that you never even imagined.</p>
+            <p>I pray that this year brings you closer to the man you’re becoming and that you continue to grow into
+                everything God has called you to be. May you have peace in your heart, joy in the little things, and the
+                strength to keep going even when life gets difficult.</p>
+            <p>I hope you receive every blessing you’ve been praying for, and even the ones you haven’t thought to ask
+                for yet. May God surround you with genuine people, meaningful opportunities, and moments that remind you
+                just how blessed you are.</p>
+            <p>I’m genuinely grateful that God allowed our paths to cross. You’ve made such a meaningful impact on my
+                life, and regardless of where life takes us, I’ll always be grateful for the memories, the lessons and
+                the love we shared.</p>
+            <p>I hope you know that you deserve to be happy, to be loved, to grow and to experience beautiful things in
+                this life.</p>
+            <!-- You can paste the rest of the full letter text below this paragraph -->
+        </div>
+    </section>
+
+    <!-- Section 9 -->
+    <section id="blessing">
+        <h2>One more thing before you go…</h2>
+        <p>I pray that this new chapter is your best one yet.</p>
+        <p>May it be filled with answered prayers, growth, purpose, peace and so much happiness.</p>
+        <p>May God continue to keep you, bless you and guide you always. 🤍</p>
+    </section>
+
+    <!-- Final Section -->
+    <section id="final">
+        <p>And that’s my little something for you.</p>
+        <p>Thank you for being a part of my story.</p>
+        <p>Thank you for the memories.</p>
+        <p>Thank you for the lessons.</p>
+        <p>Thank you for being you.</p>
+        <h2>HAPPY BIRTHDAY, JUNIOR. 🤍</h2>
+        <p style="font-size: 0.9rem; margin-top: 1rem;">I hope this next chapter of your life is beautiful.</p>
+
+        <div class="last-song-control">
+            <span style="display: block; margin-bottom: 0.5rem;">♫ One last song</span>
+            <button id="final-music-toggle">Pause</button>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const openScreen = document.getElementById('opening-screen');
+            const openBtn = document.getElementById('open-button');
+            const bgMusic = document.getElementById('bg-music');
+            const musicToggle = document.getElementById('music-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const globalMusicControl = document.getElementById('music-control');
+            const sections = document.querySelectorAll('section');
+            const finalMusicToggle = document.getElementById('final-music-toggle');
+            const memoryVideo = document.getElementById('memory-video');
+
+            // Handle the opening screen
+            openBtn.addEventListener('click', () => {
+                openScreen.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Allow scrolling
+
+                // Show controls
+                mainNav.classList.add('visible');
+                globalMusicControl.classList.add('visible');
+
+                // Start music (Browsers require interaction before autoplay)
+                bgMusic.play().catch(e => console.error("Music playback failed:", e));
+                bgMusic.volume = 0.3; // Set volume at 30% for a soft touch
+            });
+
+            // Music control (Global toggle)
+            function toggleMusic(btn) {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    btn.textContent = '🔊';
+                    musicToggle.title = 'Pause Music';
+                    finalMusicToggle.textContent = 'Pause';
+                } else {
+                    bgMusic.pause();
+                    btn.textContent = '🔇';
+                    musicToggle.title = 'Play Music';
+                    finalMusicToggle.textContent = 'Play';
+                }
+            }
+
+            musicToggle.addEventListener('click', () => toggleMusic(musicToggle));
+            finalMusicToggle.addEventListener('click', () => toggleMusic(musicToggle));
+
+            // Section appearance animation (Observer)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.05
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Lower music volume when memory video is playing
+            memoryVideo.addEventListener('play', () => {
+                bgMusic.volume = 0.1; // Lower bg music volume
+            });
+
+            memoryVideo.addEventListener('pause', () => {
+                bgMusic.volume = 0.3; // Restore bg music volume
+            });
+
+            memoryVideo.addEventListener('ended', () => {
+                bgMusic.volume = 0.3; // Restore bg music volume
+            });
+
+        });
+    </script>
+</body>
+
+</html>
